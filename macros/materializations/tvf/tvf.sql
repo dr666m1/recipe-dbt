@@ -1,15 +1,21 @@
 -- https://docs.getdbt.com/guides/advanced/creating-new-materializations
 {%- materialization tvf, adapter='bigquery' -%}
-  {%- set identifier = model['alias'] -%}
-  {%- set target_relation = api.Relation.create(identifier=identifier, schema=schema, database=database,
-                                                type='view') -%}
+  {%- set identifier = model['alias'] -%} -- overwrite identifier
+
+  -- Allowed values for type are table, view, cte, materizedview and external.
+  -- Default value for BigQuery seems to be external.
+  -- https://github.com/dbt-labs/dbt-core/blob/304797b099d3c7150ddd8ecc425ac5e872e0410b/core/dbt/contracts/relation.py#L16
+  -- https://github.com/dbt-labs/dbt-bigquery/blob/a19f8e1a8ffa5edf1ca1a9255641c68ea2c10f95/dbt/adapters/bigquery/impl.py#L491
+  {%- set relation = api.Relation.create(identifier=identifier, schema=schema, database=database, type="external") -%}
+  {% set table = "`" + ([relation.database, relation.schema, relation.identifier] | join(".")) + "`" %}
 
   {% call statement('main') -%}
-  CREATE OR REPLACE TABLE FUNCTION recipe_dbt.i64(i INT64)
+  -- TODO pass arguments
+  CREATE OR REPLACE TABLE FUNCTION {{ table }}(i INT64)
   AS (
-    SELECT i as col
+    {{ sql }}
   )
   {%- endcall %}
 
-  {{ return({'relations': [target_relation]}) }}
+  {{ return({'relations': [relation]}) }}
 {%- endmaterialization -%}

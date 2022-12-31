@@ -3,4 +3,4 @@
     materialized='tvf'
   )
 }}
-select 1
+select i as col
