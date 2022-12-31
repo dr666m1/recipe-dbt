@@ -1,11 +1,5 @@
-Welcome to your new dbt project!
-
-### Using the starter project
-
-Try running the following commands:
-- dbt run
-- dbt test
-
+# Recipe or DBT
+Executing [getting started](https://docs.getdbt.com/docs/get-started/getting-started-dbt-core) ...
 
 ### Resources:
 - Learn more about dbt [in the docs](https://docs.getdbt.com/docs/introduction)
