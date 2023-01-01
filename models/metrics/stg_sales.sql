@@ -1,3 +1,12 @@
+-- This must be a table to avoid following error.
+-- Correlated subqueries that reference other tables are not supported
+-- unless they can be de-correlated, such as by transforming them into an efficient JOIN.
+{{
+    config(
+        materialized='table'
+    )
+}}
+
 with sales as (
   select data.dt, data.sales
   from unnest([
