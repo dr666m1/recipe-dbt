@@ -5,6 +5,7 @@ refresh:
 
 .PHONY: compile
 compile:
+	dbt clean && \
 	dbt compile && \
-	dbt docs generate
+	dbt docs generate --no-compile
 
