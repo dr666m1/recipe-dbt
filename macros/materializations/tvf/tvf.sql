@@ -1,6 +1,8 @@
 -- https://docs.getdbt.com/guides/advanced/creating-new-materializations
 {%- materialization tvf, adapter='bigquery' -%}
   {%- set identifier = model['alias'] -%} -- overwrite identifier
+  -- https://docs.getdbt.com/reference/dbt-jinja-functions/config
+  {%- set params = config.get('params', '') -%}
 
   -- Allowed values for type are table, view, cte, materizedview and external.
   -- Default value for BigQuery seems to be external.
@@ -11,7 +13,7 @@
 
   {% call statement('main') -%}
   -- TODO pass arguments
-  CREATE OR REPLACE TABLE FUNCTION {{ table }}(i INT64)
+  CREATE OR REPLACE TABLE FUNCTION {{ table }}({{ params }})
   AS (
     {{ sql }}
   )
