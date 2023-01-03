@@ -1,0 +1,38 @@
+version: 2
+metrics:
+  - name: sum_ltv
+    label: Sum Lifetime Value
+    model: ref("customers")
+
+    calculation_method: sum
+    expression: ltv
+    timestamp: register_dt
+    time_grains: [day, week, month]
+    dimensions:
+      - country
+    filters: []
+
+  - name: count_new_customers
+    label: Count New Customers
+    model: ref("customers")
+
+    calculation_method: count_distinct
+    expression: customer_id
+    timestamp: register_dt
+    time_grains: [day, week, month]
+    dimensions:
+      - country
+    filters: []
+    config:
+      treat_null_values_as_zero: false
+
+  - name: average_ltv
+    label: Average Lifetime Value
+ 
+    calculation_method: derived
+    expression: "{{ metric('sum_ltv') }} / {{ metric('count_new_customers') }}"
+    timestamp: register_dt
+    time_grains: [day, week, month]
+    dimensions:
+      - country
+

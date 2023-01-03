@@ -6,8 +6,8 @@ with
     from
       unnest(
         [
-          struct("a" as id, date "2023-01-01" as register_dt),
-          struct("b" as id, date "2023-01-02" as register_dt)
+          struct("a" as id, date "2023-01-01" as register_dt, "JP" as country),
+          struct("b" as id, date "2023-01-02" as register_dt, "US" as country)
         ]
       ) as data
   ),
@@ -17,7 +17,10 @@ with
     select
       id as customer_id,
       * except (id),
-    from unnest([struct("c" as id, date "2023-01-03" as register_dt)]) as data
+    from
+      unnest(
+        [struct("c" as id, date "2023-01-03" as register_dt, "JP" as country)]
+      ) as data
   )
 select *, date "2023-01-02" as snapshot_dt from snapshot_20230102
 union all
