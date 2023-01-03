@@ -7,10 +7,14 @@ refresh:
 .PHONY: compile
 compile:
 	dbt clean && \
-	dbt compile && \
-	dbt docs generate --no-compile
+	dbt compile
 
 .PHONY: setup
 setup:
 	pip install -r ./requirement.txt && \
 	dbt deps
+
+.PHONY: docs
+docs: compile
+	dbt docs generate --no-compile && \
+	echo 'Done! Now you can run ./scripts/serve.sh'
