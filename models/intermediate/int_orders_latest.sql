@@ -1,1 +1,2 @@
-{{ latest_snapshot_of("stg_dummy__orders") }}
+select *,
+from ({{ latest_snapshot_of("stg_dummy__orders") }})
