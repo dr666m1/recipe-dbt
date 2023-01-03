@@ -12,5 +12,5 @@ compile:
 
 .PHONY: setup
 setup:
-	pip install dbt-bigquery && \
+	pip install -r ./requirement.txt && \
 	dbt deps
