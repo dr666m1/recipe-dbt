@@ -19,9 +19,9 @@ docs: compile
 	dbt docs generate --no-compile && \
 	echo 'Done! Now you can run ./scripts/serve.sh'
 
-.PHONY: test
-test:
-	sqlfluff lint models --dialect bigquery
+.PHONY: lint
+lint:
+	./scripts/lint.sh
 
 .PHONY: fix
 fix:
