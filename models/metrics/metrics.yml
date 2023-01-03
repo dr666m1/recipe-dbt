@@ -23,14 +23,12 @@ metrics:
     dimensions:
       - country
     filters: []
-    config:
-      treat_null_values_as_zero: false
 
   - name: average_ltv
     label: Average Lifetime Value
  
     calculation_method: derived
-    expression: "{{ metric('sum_ltv') }} / {{ metric('count_new_customers') }}"
+    expression: "{{ metric('sum_ltv') }} / nullif({{ metric('count_new_customers') }}, 0)"
     timestamp: register_dt
     time_grains: [day, week, month]
     dimensions:
