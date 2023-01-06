@@ -12,7 +12,6 @@
   {% set table = "`" + ([relation.database, relation.schema, relation.identifier] | join(".")) + "`" %}
 
   {% call statement('main') -%}
-  -- TODO pass arguments
   CREATE OR REPLACE TABLE FUNCTION {{ table }}({{ params }})
   AS (
     {{ sql }}
