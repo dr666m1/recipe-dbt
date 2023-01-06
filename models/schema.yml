@@ -7,3 +7,9 @@ models:
           combination_of_columns:
             - customer_id
             - snapshot_dt
+  - name: hist_customers
+    columns:
+      - name: customer_id
+        tests:
+          - tvf_unique:
+              params: date "2023-01-02"

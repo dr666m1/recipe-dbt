@@ -21,3 +21,16 @@
 
   {{ return({'relations': [relation]}) }}
 {%- endmaterialization -%}
+
+-- https://docs.getdbt.com/guides/best-practices/writing-custom-generic-tests
+{% test tvf_unique(model, column_name, params) %}
+  -- https://github.com/dbt-labs/dbt-core/blob/main/core/dbt/include/global_project/macros/generic_test_sql/unique.sql
+  select
+    {{ column_name }} as unique_field,
+    count(*) as n_records
+
+  from {{ model }}({{ params }})
+  where {{ column_name }} is not null
+  group by {{ column_name }}
+  having count(*) > 1
+{% endtest %}
